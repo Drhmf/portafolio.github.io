@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hector Miguel Feliz - Professional Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary-950: #0C0A09;
+            --primary-900: #1C1917;
+            --primary-800: #292524;
+            --primary-700: #44403C;
+            --primary-600: #57534E;
+            --primary-500: #78716C;
+            --primary-400: #A8A29E;
+            --primary-300: #D6D3D1;
+            --primary-200: #E7E5E4;
+            --primary-100: #F5F5F4;
+            --primary-50: #FAFAF9;
+            
+            --accent-600: #2563EB;
+            --accent-500: #3B82F6;
+            --accent-400: #60A5FA;
+            --accent-300: #93C5FD;
+            
+            --success-500: #10B981;
+            --warning-500: #F59E0B;
+            --danger-500: #EF4444;
+            
+            /* Light mode variables */
+            --bg-primary: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --border-glass: rgba(255, 255, 255, 0.2);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        [data-theme="dark"] {
+            /* Dark mode variables */
+            --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            --bg-glass: rgba(30, 41, 59, 0.8);
+            --bg-card: rgba(30, 41, 59, 0.9);
+            --border-glass: rgba(148, 163, 184, 0.1);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Auto-detect system preference */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+                --bg-glass: rgba(30, 41, 59, 0.8);
+                --bg-card: rgba(30, 41, 59, 0.9);
+                --border-glass: rgba(148, 163, 184, 0.1);
+                --text-primary: #f1f5f9;
+                --text-secondary: #cbd5e1;
+                --text-tertiary: #94a3b8;
+                --shadow-color: rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+                --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+                --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            font-size: 14px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-glass);
+            z-index: 1000;
+            padding: 2rem 0;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-500), var(--accent-600));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 2rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .sidebar-nav a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-500);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: var(--accent-600);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .sidebar-nav a:hover::before,
+        .sidebar-nav a.active::before {
+            opacity: 1;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 16px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            bottom: 5rem;
+            left: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .theme-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--primary-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .theme-switch {
+            background: var(--accent-500);
+        }
+
+        .theme-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .theme-switch::before {
+            transform: translateX(20px);
+            background: #1e293b;
+        }
+
+        .theme-icon {
+            font-size: 14px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-icon.sun {
+            opacity: 1;
+        }
+
+        .theme-icon.moon {
+            opacity: 0.5;
+        }
+
+        [data-theme="dark"] .theme-icon.sun {
+            opacity: 0.5;
+        }
+
+        [data-theme="dark"] .theme-icon.moon {
+            opacity: 1;
+        }
+        .status-badge {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--success-500), #059669);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .dashboard-header {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-info h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-primary {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--accent-600);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-500);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-500);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid var(--border-glass);
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-300), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2xl);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-500);
+        }
+
+        .card-action {
+            color: var(--text-tertiary);
+            font-size: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .card-action:hover {
+            color: var(--accent-500);
+        }
+
+        /* Metric Cards */
+        .metric-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-500), var(--accent-600));
+        }
+
+        .metric-card:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .metric-trend {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .metric-trend.up {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-500);
+        }
+
+        .metric-trend.neutral {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-500);
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .metric-subtitle {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border-glass);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-500), var(--accent-600));
+            border-radius: 3px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reflection Items */
+        .reflection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .reflection-item {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .reflection-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-500), var(--accent-600));
+            border-radius: 2px;
+        }
+
+        .reflection-item:hover {
+            transform: translateX(4px) translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .reflection-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .reflection-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-500), var(--accent-600));
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .reflection-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .reflection-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Evidence Grid */
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .evidence-item {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .evidence-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .evidence-item:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: var(--shadow-2xl);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .evidence-item:hover::before {
+            left: 100%;
+        }
+
+        .evidence-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .evidence-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-500), var(--accent-600));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .evidence-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-500);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .evidence-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .evidence-description {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border-glass);
+            border-top: 2px solid var(--accent-500);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .profile-section {
+                align-self: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .dashboard-header {
+                padding: 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-glass);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-tertiary);
+            border-radius: 3px;
+            opacity: 0.5;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Cargando Dashboard...</div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="logo-icon">HF</div>
+                <span>Portafolio de Evidencias</span>
+            </div>
+        </div>
+        
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="#overview" class="active"><span class="nav-icon">📊</span>Overview</a></li>
+                <li><a href="#reflexiones"><span class="nav-icon">🧠</span>Reflexiones</a></li>
+                <li><a href="#evidencias"><span class="nav-icon">📁</span>Evidencias</a></li>
+                <li><a href="#analytics"><span class="nav-icon">📈</span>Analytics</a></li>
+            </ul>
+        </nav>
+
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="theme-icon sun">☀️</span>
+                <span style="font-size: 11px;">Tema</span>
+            </div>
+            <div class="theme-switch"></div>
+            <span class="theme-icon moon">🌙</span>
+        </div>
+
+        <div class="status-badge">
+            ✓ Portafolio Verificado
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header animate-slide-up">
+            <div class="header-content">
+                <div class="header-info">
+                    <h1>Hector Miguel Feliz Feliz M.A.</h1>
+                    <div class="header-subtitle">Licenciado en Informática con M.A. en CIBERSEGURIDAD</div>
+                    <div class="header-badges">
+                        <span class="badge badge-primary">📚 Maestría en Tecnología Educativa</span>
+                        <span class="badge badge-success">✓ PUCMM Certificado</span>
+                        <span class="badge badge-warning">🎯 Diseño de Aulas Digitales</span>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <img src="https://i.ibb.co/Yt2mMzX/Captura-de-pantalla-2024-11-14-195329.png" alt="Hector Miguel Feliz" class="profile-image">
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">4</span>
+                            <span class="stat-label">Asignaturas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">8</span>
+                            <span class="stat-label">Evidencias</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">100%</span>
+                            <span class="stat-label">Completado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Metrics Grid -->
+        <section class="metrics-grid animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Impacto en Retención</div>
+                    <div class="metric-trend up">+35%</div>
+                </div>
+                <div class="metric-value">85%</div>
+                <div class="metric-subtitle">Retención estudiantil</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Mejora en Calificaciones</div>
+                    <div class="metric-trend up">+22%</div>
+                </div>
+                <div class="metric-value">4.2</div>
+                <div class="metric-subtitle">Promedio general</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 84%;"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Metodologías Digitales</div>
+                    <div class="metric-trend up">+100%</div>
+                </div>
+                <div class="metric-value">12</div>
+                <div class="metric-subtitle">Herramientas implementadas</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Satisfacción Estudiantil</div>
+                    <div class="metric-trend neutral">Estable</div>
+                </div>
+                <div class="metric-value">9.3</div>
+                <div class="metric-subtitle">Score promedio</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 93%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Grid -->
+        <div class="dashboard-grid">
+            <!-- Reflexiones Section -->
+            <section id="reflexiones" class="animate-slide-up" style="animation-delay: 0.2s;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="card-icon">🧠</span>
+                            Reflexiones y Aprendizajes
+                        </h2>
+                        <a href="#" class="card-action">Ver detalles →</a>
+                    </div>
+                    
+                    <div class="reflection-grid">
+                        <div class="reflection-item">
+                            <div class="reflection-header">
+                                <div class="reflection-icon">🎓</div>
+                                <div class="reflection-title">Práctica Pedagógica Transformada</div>
+                            </div>
+                            <div class="reflection-content">
+                                Como docente universitario en Diseño Web, Java, Base de Datos y Python, he experimentado una evolución significativa en mi metodología. La asignatura "Diseño de Aulas Digitales" ha sido un catalizador para repensar la enseñanza de conceptos técnicos complejos.
+                            </div>
+                        </div>
+                        
+                        <div class="reflection-item">
+                            <div class="reflection-header">
+                                <div class="reflection-icon">💻</div>
+                                <div class="reflection-title">Revolución en Clases Online</div>
+                            </div>
+                            <div class="reflection-content">
+                                La transformación más notable ha sido en las clases virtuales. He implementado metodologías interactivas que aumentaron un 35% la participación estudiantil. Las herramientas digitales crean experiencias inmersivas más allá de la transmisión tradicional.
+                            </div>
+                        </div>
+                        
+                        <div class="reflection-item">
+                            <div class="reflection-header">
+                                <div class="reflection-icon">🔧</div>
+                                <div class="reflection-title">Herramienta de Asesoría Integral</div>
+                            </div>
+                            <div class="reflection-content">
+                                Este portafolio se ha convertido en herramienta fundamental para supervisión académica y asesoría personalizada. Me permite documentar progreso, identificar áreas de mejora y proporcionar retroalimentación basada en evidencias concretas.
+                            </div>
+                        </div>
+                        
+                        <div class="reflection-item">
+                            <div class="reflection-header">
+                                <div class="reflection-icon">📊</div>
+                                <div class="reflection-title">Casos de Estudio Exitosos</div>
+                            </div>
+                            <div class="reflection-content">
+                                He documentado múltiples casos donde las aulas digitales resultaron en mejoras medibles del rendimiento. Estudiantes con dificultades en programación ahora demuestran mayor comprensión través de metodologías interactivas.
+                            </div>
+                        </div>
+                        
+                        <div class="reflection-item">
+                            <div class="reflection-header">
+                                <div class="reflection-icon">🎯</div>
+                                <div class="reflection-title">Testimonio de Impacto</div>
+                            </div>
+                            <div class="reflection-content">
+                                "La implementación incrementó la retención estudiantil un 35% y mejoró las calificaciones promedio. Los estudiantes reportan mayor motivación y comprensión de conceptos complejos como algoritmos y estructuras de datos."
+                            </div>
+                        </div>
+                        
+                        <div class="reflection-item">
+                            <div class="reflection-header">
+                                <div class="reflection-icon">🚀</div>
+                                <div class="reflection-title">Visión Futura</div>
+                            </div>
+                            <div class="reflection-content">
+                                Mi compromiso continúa en la innovación educativa, integrando tecnologías emergentes y metodologías pedagógicas avanzadas para preparar futuros profesionales en informática y ciberseguridad con competencias del mercado actual.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="animate-slide-up" style="animation-delay: 0.3s;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="card-icon">📈</span>
+                            Performance Overview
+                        </h2>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(59, 130, 246, 0.1)); border-radius: 8px; border: 1px solid rgba(37, 99, 235, 0.1);">
+                            <div style="font-size: 24px; font-weight: 800; color: var(--accent-600); margin-bottom: 4px;">4</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Asignaturas Impartidas</div>
+                            <div style="font-size: 10px; color: var(--text-tertiary); margin-top: 4px;">Java • Python • Web • BD</div>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.1)); border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.1);">
+                            <div style="font-size: 24px; font-weight: 800; color: var(--success-500); margin-bottom: 4px;">8</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Evidencias Documentadas</div>
+                            <div style="font-size: 10px; color: var(--text-tertiary); margin-top: 4px;">100% Completado</div>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(245, 158, 11, 0.1)); border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.1);">
+                            <div style="font-size: 24px; font-weight: 800; color: var(--warning-500); margin-bottom: 4px;">M.A.</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Ciberseguridad</div>
+                            <div style="font-size: 10px; color: var(--text-tertiary); margin-top: 4px;">Especialización Activa</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Evidence Section -->
+        <section id="evidencias" class="animate-slide-up" style="animation-delay: 0.4s;">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span class="card-icon">📁</span>
+                        Evidencias del Portafolio
+                    </h2>
+                    <a href="#" class="card-action">Gestionar archivos →</a>
+                </div>
+                
+                <div class="evidence-grid">
+                    <a href="https://drive.google.com/file/d/1Gb2EPB2eJpovAHjIlmuJuOBfSbaOjjmr/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">📊</div>
+                            <div class="evidence-status">Completado</div>
+                        </div>
+                        <div class="evidence-title">Cuadro Comparativo</div>
+                        <div class="evidence-description">Análisis comparativo de metodologías tradicionales vs. digitales en la enseñanza de programación y tecnología.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1FHhYW8ORpbMwK0AOr4EiNQUsJLaH2scu/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">🎓</div>
+                            <div class="evidence-status">Verificado</div>
+                        </div>
+                        <div class="evidence-title">Estudio de Caso - Curso Virtual</div>
+                        <div class="evidence-description">Documentación completa de implementación y resultados de un curso virtual innovador en programación.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1tKFccnjaPSVLptOb4HXlg3e8cHxhVqs7/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">📋</div>
+                            <div class="evidence-status">Analizado</div>
+                        </div>
+                        <div class="evidence-title">Tabla de Sistematización</div>
+                        <div class="evidence-description">Sistematización de procesos pedagógicos y evaluación de efectividad en el aprendizaje estudiantil.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1ACJTCzQE4xB4hih0UbWIt8FYFX1qQcH7/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">📝</div>
+                            <div class="evidence-status">Activo</div>
+                        </div>
+                        <div class="evidence-title">Google Forms - Evaluación I</div>
+                        <div class="evidence-description">Implementación de herramientas de evaluación digital para mejorar retroalimentación estudiantil.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1V4zHywXCoajqpbrDlxVLCAA7EvsSt5X_/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">🎯</div>
+                            <div class="evidence-status">Optimizado</div>
+                        </div>
+                        <div class="evidence-title">Socrative - Gamificación I</div>
+                        <div class="evidence-description">Uso de plataformas interactivas para gamificación y engagement en clases de programación.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1-xkTfJ1EY7dYBai63ykuHUrrLhqu_nIU/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">📊</div>
+                            <div class="evidence-status">Procesado</div>
+                        </div>
+                        <div class="evidence-title">Google Forms - Evaluación II</div>
+                        <div class="evidence-description">Análisis avanzado de datos de evaluación y su impacto en mejora continua del proceso educativo.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1I89lhYaL92ojKDV0djfcLG7UQnC3uOxp/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">🚀</div>
+                            <div class="evidence-status">Ejecutado</div>
+                        </div>
+                        <div class="evidence-title">Socrative - Gamificación II</div>
+                        <div class="evidence-description">Resultados de implementación de metodologías interactivas en evaluación formativa y sumativa.</div>
+                    </a>
+                    
+                    <a href="https://drive.google.com/file/d/1uqcFUqBZI5ZW-fBDP27zF4a61J9Vgjeg/view?usp=sharing" target="_blank" class="evidence-item">
+                        <div class="evidence-header">
+                            <div class="evidence-icon-wrapper">📈</div>
+                            <div class="evidence-status">Integrado</div>
+                        </div>
+                        <div class="evidence-title">Síntesis Final - Integración</div>
+                        <div class="evidence-description">Síntesis completa de metodologías implementadas y resultados medibles en el proceso educativo.</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('fade-out');
+                
+                // Start animations after loading
+                setTimeout(() => {
+                    const elements = document.querySelectorAll('.animate-slide-up, .animate-fade-in');
+                    elements.forEach((el, index) => {
+                        setTimeout(() => {
+                            el.style.opacity = '1';
+                        }, index * 100);
+                    });
+                }, 300);
+            }, 2000);
+        });
+
+        // Smooth navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Update active nav
+                document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Progress bar animations
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 200);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.metric-card').forEach(card => {
+            progressObserver.observe(card);
+        });
+
+        // Card hover effects
+        document.querySelectorAll('.card, .metric-card, .evidence-item, .reflection-item').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = this.style.transform || '';
+                if (this.classList.contains('reflection-item')) {
+                    this.style.transform = 'translateX(4px) translateY(-2px)';
+                } else if (this.classList.contains('evidence-item')) {
+                    this.style.transform = 'translateY(-4px) scale(1.01)';
+                } else if (this.classList.contains('metric-card')) {
+                    this.style.transform = 'translateY(-1px)';
+                } else {
+                    this.style.transform = 'translateY(-2px)';
+                }
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                if (this.classList.contains('reflection-item')) {
+                    this.style.transform = 'translateX(0) translateY(0)';
+                } else {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+
+        // Mobile sidebar toggle (if needed)
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Advanced animations on scroll
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe all animatable elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial states
+            document.querySelectorAll('.animate-slide-up, .animate-fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                scrollObserver.observe(el);
+            });
+        });
+
+        // Metric counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.metric-value');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+                if (isNaN(target)) return;
+                
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = counter.textContent.replace(/[\d.]+/, target);
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = counter.textContent.replace(/[\d.]+/, Math.floor(current));
+                    }
+                }, 30);
+            });
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // Detect system preference and set initial theme
+        function initTheme() {
+            const html = document.documentElement;
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (systemPrefersDark) {
+                html.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            const html = document.documentElement;
+            if (e.matches) {
+                html.setAttribute('data-theme', 'dark');
+            } else {
+                html.removeAttribute('data-theme');
+            }
+        });
+
+        // Initialize theme on page load
+        initTheme();
+
+        // Run counter animation when metrics are visible
+        const metricsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(animateCounters, 500);
+                    metricsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const metricsGrid = document.querySelector('.metrics-grid');
+            if (metricsGrid) {
+                metricsObserver.observe(metricsGrid);
+            }
+        });
+    </script>
+</body>
+</html>
